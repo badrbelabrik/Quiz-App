@@ -1,0 +1,96 @@
+/* Global Styles  */
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f5f5f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.quiz-container {
+  width: 80%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* / ---- Header Flex ---- / */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #c9a6ff;
+}
+
+.progress {
+  font-weight: bold;
+}
+
+/* / ---- Center Area ---- / */
+main {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+/* / Card Styling / */
+.question-card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  width: 550px;
+}
+
+/* / ---- Answers Grid ---- / */
+.answers-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.answer {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  background: white;
+  transition: 0.3s;
+}
+
+.answer:hover {
+  background: #f0e9ff;
+  border-color: #9d59ff;
+}
+
+/* / ---- Footer Flex ---- */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+}
+
+.nav-btn {
+  border: none;
+  background: none;
+  color: #9d59ff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.next {
+  background: #9d59ff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  color: white;
+}
+
+.next:hover {
+  background: #7a34d6;
+}

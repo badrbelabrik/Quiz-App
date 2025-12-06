@@ -1,0 +1,39 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>Quiz App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    </head>
+    <body>
+<div showQuestion() class="quiz-container">
+
+    <header>
+        <h2>Java Basics Quiz</h2>
+        <span class="progress">3 / 10</span>
+    </header>
+
+    <main>
+        <div class="question-card">
+            <h3 id="h3"></h3>
+            <p id="question"></p>
+
+            <div class="answers-grid">
+                <button class="answer" data-correct="" id="answer1"></button>
+                <button class="answer" data-correct="" id="answer2"></button>
+                <button class="answer" data-correct="" id="answer3"></button>
+                <button class="answer" data-correct="" id="answer4"></button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <button class="nav-btn" onclick="previousQuestion()">Back</button>
+        <button class="nav-btn skip" onclick="skipQuestion()">Skip Question</button>
+        <button class="nav-btn next" onclick="nextQuestion()">Next</button>
+    </footer>
+    </div>
+
+    </body>
+</html>
