@@ -2,151 +2,201 @@ const quiz = [
   {
     question: "Which keyword is used to define a class in Java?",
     answers: [
-      { text: "class", correct: true },
-      { text: "define", correct: false },
-      { text: "struct", correct: false },
-      { text: "object", correct: false }
-    ]
+      { text: "class" },
+      { text: "define" },
+      { text: "struct" },
+      { text: "object" }
+    ],
+    correct: "class",
+    userAnswer: null
   },
   {
     question: "Which method is the entry point of a Java program?",
     answers: [
-      { text: "start()", correct: false },
-      { text: "main()", correct: true },
-      { text: "run()", correct: false },
-      { text: "execute()", correct: false }
-    ]
+      { text: "start()" },
+      { text: "main()" },
+      { text: "run()" },
+      { text: "execute()" }
+    ],
+    correct: "main()",
+    userAnswer: null
   },
   {
     question: "Which keyword is used to create an object in Java?",
     answers: [
-      { text: "class", correct: false },
-      { text: "this", correct: false },
-      { text: "new", correct: true },
-      { text: "object", correct: false }
-    ]
+      { text: "class" },
+      { text: "this" },
+      { text: "new" },
+      { text: "object" }
+    ],
+    correct: "new",
+    userAnswer: null
   },
   {
     question: "Which data type is used to store true/false values?",
     answers: [
-      { text: "int", correct: false },
-      { text: "boolean", correct: true },
-      { text: "char", correct: false },
-      { text: "float", correct: false }
-    ]
+      { text: "int" },
+      { text: "boolean" },
+      { text: "char" },
+      { text: "float" }
+    ],
+    correct: "boolean",
+    userAnswer: null
   },
   {
     question: "Which symbol is used for single-line comments in Java?",
     answers: [
-      { text: "//", correct: true },
-      { text: "/* */", correct: false },
-      { text: "#", correct: false },
-      { text: "&lt;!-- --&gt;", correct: false }
-    ]
+      { text: "//" },
+      { text: "/* */" },
+      { text: "#" },
+      { text: "<!-- -->" }
+    ],
+    correct: "//",
+    userAnswer: null
   },
   {
     question: "Which keyword is used to inherit a class in Java?",
     answers: [
-      { text: "inherits", correct: false },
-      { text: "extends", correct: true },
-      { text: "implements", correct: false },
-      { text: "super", correct: false }
-    ]
+      { text: "inherits" },
+      { text: "extends" },
+      { text: "implements" },
+      { text: "super" }
+    ],
+    correct: "extends",
+    userAnswer: null
   },
   {
     question: "What is the size of an int in Java?",
     answers: [
-      { text: "8 bits", correct: false },
-      { text: "16 bits", correct: false },
-      { text: "32 bits", correct: true },
-      { text: "64 bits", correct: false }
-    ]
+      { text: "8 bits" },
+      { text: "16 bits" },
+      { text: "32 bits" },
+      { text: "64 bits" }
+    ],
+    correct: "32 bits",
+    userAnswer: null
   },
   {
     question: "Which OOP concept allows Java to have multiple forms of a method?",
     answers: [
-      { text: "Encapsulation", correct: false },
-      { text: "Inheritance", correct: false },
-      { text: "Polymorphism", correct: true },
-      { text: "Abstraction", correct: false }
-    ]
+      { text: "Encapsulation" },
+      { text: "Inheritance" },
+      { text: "Polymorphism" },
+      { text: "Abstraction" }
+    ],
+    correct: "Polymorphism",
+    userAnswer: null
   },
   {
     question: "Which loop will always run at least once?",
     answers: [
-      { text: "for loop", correct: false },
-      { text: "while loop", correct: false },
-      { text: "do-while loop", correct: true },
-      { text: "foreach loop", correct: false }
-    ]
+      { text: "for loop" },
+      { text: "while loop" },
+      { text: "do-while loop" },
+      { text: "foreach loop" }
+    ],
+    correct: "do-while loop",
+    userAnswer: null
   },
   {
-    question: "Which keyword is used to stop a loop in Java?",
-    answers: [
-      { text: "stop", correct: false },
-      { text: "exit", correct: false },
-      { text: "break", correct: true },
-      { text: "return", correct: false }
-    ]
+  question: "Which keyword is used to stop a loop in Java?", 
+  answers: [ 
+    { text: "stop"}, 
+    { text: "exit"}, 
+    { text: "break"}, 
+    { text: "return"} ], 
+    correct: "break",
+    userAnswer: null
   }
 ];
 
 
-
 let currentQuestion = 0;
-
+let score = 0;
 
 
 function showQuestion(){
-    count = currentQuestion+1
-    document.getElementById("h3").innerHTML = "Question " + count;
-    document.getElementById("question").innerHTML = quiz[currentQuestion].question;
-    document.getElementById("answer1").innerHTML = quiz[currentQuestion].answers[0].text;
-    document.getElementById("answer1").dataset.correct = quiz[currentQuestion].answers[0].correct;
-    document.getElementById("answer2").innerHTML = quiz[currentQuestion].answers[1].text;
-    document.getElementById("answer1").dataset.correct = quiz[currentQuestion].answers[1].correct;
-    document.getElementById("answer3").innerHTML = quiz[currentQuestion].answers[2].text;
-    document.getElementById("answer1").dataset.correct = quiz[currentQuestion].answers[2].correct;
-    document.getElementById("answer4").innerHTML = quiz[currentQuestion].answers[3].text;
-    document.getElementById("answer1").dataset.correct = quiz[currentQuestion].answers[3].correct;
-}
+      document.getElementById("h3").innerHTML = "Question"+(currentQuestion+1);
+      document.getElementById("question").innerHTML = quiz[currentQuestion].question;
+      document.getElementById("progress").innerHTML = (currentQuestion+1)+"/"+quiz.length;
+      const answersContainer = document.querySelector(".answers-grid");
+        answersContainer.innerHTML = "";
+
+
+            for(let i=0; i<quiz[currentQuestion].answers.length; i++){
+              let btn = document.createElement("button");
+              btn.textContent = quiz[currentQuestion].answers[i].text;
+              btn.classList.add("answer");
+              btn.style.backgroundColor = "";
+              
+              if(quiz[currentQuestion].userAnswer != null){
+                btn.disabled = true;
+
+                if(btn.textContent === quiz[currentQuestion].correct){
+                  btn.style.backgroundColor = "green";
+                } 
+                
+                 else if(btn.textContent === quiz[currentQuestion].userAnswer && btn.textContent != quiz[currentQuestion].correct){
+                  btn.style.backgroundColor = "red";
+                } 
+              } else {
+                  btn.disabled = false;
+                  btn.addEventListener("click", function(){
+                  checkAnswer(quiz[currentQuestion].correct,btn.textContent,btn, quiz[currentQuestion]);
+                });
+              }
+                answersContainer.appendChild(btn);
+              }
+                  
+      }
+
 
 function nextQuestion(){
-    currentQuestion++;
-    if(currentQuestion >= quiz.length){
-        alert("Quiz finished!");
-        return;
+   if(currentQuestion < quiz.length-1){
+      currentQuestion++;
+      showQuestion();
+    } else if(currentQuestion == quiz.length-1){
+        document.getElementById("h3").innerHTML = "";
+        document.getElementById("question").innerHTML = "";
+      
+        const answersContainer = document.querySelector(".answers-grid");
+        answersContainer.innerHTML = "";
+        let result = document.createElement("div");
+        result.classList.add("score-screen");
+        result.textContent = "your score is "+score+"/"+quiz.length;
+        answersContainer.appendChild(result);
     }
-    showQuestion();
-}
+  }
 
 function previousQuestion(){
-    if(currentQuestion>=1){
-            currentQuestion--;
-    showQuestion();
+    if(currentQuestion>0){
+      currentQuestion--;
+      showQuestion();
     }
 }
 
-function showResult(){
-const buttons = document.getElementsByClassName("answer");
-for (let button of buttons) {
-    button.addEventListener("click", function() {
-        const isCorrect = button.dataset.correct === "true";
-        if(isCorrect){
-            button.style.backgroundColor = "green";
-        } else{button.style.backgroundColor = "red"}
-    for (let button of buttons){
-        button.disabled = true;
-    }    
-    });
-}
+function checkAnswer(correctAnswer,btnText,btn, question){
+   question.userAnswer = btnText;
+  
+  if(btnText === correctAnswer){
+      btn.style.backgroundColor = "green";
+      score++;
+    } else{btn.style.background = "red";}
+    const buttons = document.querySelectorAll(".answer");
+    for(button of buttons){
+      if(button.textContent == correctAnswer){
+        button.style.backgroundColor = "green";
+      }
+      button.disabled = true;
+    }
 }
 
 
-// function skipQuestion(){
-//     currentQuestion+=2;
-//     showQuestion();
-// }
+
+function skipQuestion(){
+    currentQuestion++;
+    showQuestion();
+}
 
 document.addEventListener("DOMContentLoaded", () => {showQuestion();});
 document.addEventListener("DOMContentLoaded", () => {showResult();;});
