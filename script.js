@@ -133,11 +133,11 @@ function showQuestion(){
                 btn.disabled = true;
 
                 if(btn.textContent === quiz[currentQuestion].correct){
-                  btn.style.backgroundColor = "green";
+                  btn.style.backgroundColor = "lightgreen";
                 } 
                 
                  else if(btn.textContent === quiz[currentQuestion].userAnswer && btn.textContent != quiz[currentQuestion].correct){
-                  btn.style.backgroundColor = "red";
+                  btn.style.backgroundColor = "lightcoral";
                 } 
               } else {
                   btn.disabled = false;
@@ -179,13 +179,13 @@ function checkAnswer(correctAnswer,btnText,btn, question){
    question.userAnswer = btnText;
   
   if(btnText === correctAnswer){
-      btn.style.backgroundColor = "green";
+      btn.style.backgroundColor = "lightgreen";
       score++;
-    } else{btn.style.background = "red";}
+    } else{btn.style.background = "lightcoral";}
     const buttons = document.querySelectorAll(".answer");
     for(button of buttons){
       if(button.textContent == correctAnswer){
-        button.style.backgroundColor = "green";
+        button.style.backgroundColor = "lightgreen";
       }
       button.disabled = true;
     }
@@ -199,4 +199,3 @@ function skipQuestion(){
 }
 
 document.addEventListener("DOMContentLoaded", () => {showQuestion();});
-document.addEventListener("DOMContentLoaded", () => {showResult();;});
