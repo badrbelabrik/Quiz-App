@@ -8,7 +8,8 @@ const quiz = [
       { text: "object" }
     ],
     correct: "class",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
     question: "Which method is the entry point of a Java program?",
@@ -19,7 +20,8 @@ const quiz = [
       { text: "execute()" }
     ],
     correct: "main()",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
     question: "Which keyword is used to create an object in Java?",
@@ -30,7 +32,8 @@ const quiz = [
       { text: "object" }
     ],
     correct: "new",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
     question: "Which data type is used to store true/false values?",
@@ -41,7 +44,8 @@ const quiz = [
       { text: "float" }
     ],
     correct: "boolean",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
     question: "Which symbol is used for single-line comments in Java?",
@@ -52,7 +56,8 @@ const quiz = [
       { text: "<!-- -->" }
     ],
     correct: "//",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
     question: "Which keyword is used to inherit a class in Java?",
@@ -63,7 +68,8 @@ const quiz = [
       { text: "super" }
     ],
     correct: "extends",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
     question: "What is the size of an int in Java?",
@@ -74,7 +80,8 @@ const quiz = [
       { text: "64 bits" }
     ],
     correct: "32 bits",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
     question: "Which OOP concept allows Java to have multiple forms of a method?",
@@ -85,7 +92,8 @@ const quiz = [
       { text: "Abstraction" }
     ],
     correct: "Polymorphism",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
     question: "Which loop will always run at least once?",
@@ -96,26 +104,53 @@ const quiz = [
       { text: "foreach loop" }
     ],
     correct: "do-while loop",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   },
   {
-  question: "Which keyword is used to stop a loop in Java?", 
-  answers: [ 
-    { text: "stop"}, 
-    { text: "exit"}, 
-    { text: "break"}, 
-    { text: "return"} ], 
+    question: "Which keyword is used to stop a loop in Java?",
+    answers: [
+      { text: "stop" },
+      { text: "exit" },
+      { text: "break" },
+      { text: "return" }
+    ],
     correct: "break",
-    userAnswer: null
+    userAnswer: null,
+    skip: false
   }
 ];
 
 
+
 let currentQuestion = 0;
 let score = 0;
-
+let reviewingSkipped = false;
+let skippedList = [];
 
 function showQuestion(){
+      const footerContainer = document.querySelector("footer");
+      
+      const oldNext = footerContainer.querySelector(".nav-btn.next");
+      const oldSkip = footerContainer.querySelector(".nav-btn.skip");
+      if (oldNext) {oldNext.remove();}
+      if(oldSkip){oldSkip.remove();}
+
+      let skipBtn = document.createElement("button");
+      skipBtn.textContent = "Skip Question";
+      skipBtn.classList.add("nav-btn", "skip");
+      skipBtn.onclick = skipQuestion;
+      footerContainer.appendChild(skipBtn);
+
+      let nextBtn = document.createElement("button");
+      nextBtn.textContent = "Next";
+      nextBtn.classList.add("nav-btn", "next");
+      nextBtn.disabled = true;
+      nextBtn.style.backgroundColor = "grey";
+      nextBtn.style.cursor = "not-allowed";
+      nextBtn.onclick = nextQuestion;
+      footerContainer.appendChild(nextBtn);
+
       document.getElementById("h3").innerHTML = "Question"+(currentQuestion+1);
       document.getElementById("question").innerHTML = quiz[currentQuestion].question;
       document.getElementById("progress").innerHTML = (currentQuestion+1)+"/"+quiz.length;
@@ -143,29 +178,54 @@ function showQuestion(){
                   btn.disabled = false;
                   btn.addEventListener("click", function(){
                   checkAnswer(quiz[currentQuestion].correct,btn.textContent,btn, quiz[currentQuestion]);
+                  nextBtn.disabled = false;
+                  nextBtn.style.backgroundColor = "#9d59ff";
+                  nextBtn.style.cursor = "pointer";
                 });
               }
                 answersContainer.appendChild(btn);
               }
-                  
       }
 
-
 function nextQuestion(){
+  
    if(currentQuestion < quiz.length-1){
       currentQuestion++;
       showQuestion();
-    } else if(currentQuestion == quiz.length-1){
+    } else if(currentQuestion == quiz.length-1 && checkSkipped() == 0){
+        showResult();
+    } else if(checkSkipped() != -1){
+      alert("You have skipped some questions! Please answer them.");
+      currentQuestion = checkSkipped();
+      showQuestion();
+      return;
+    }
+  }
+
+  function showResult(){
         document.getElementById("h3").innerHTML = "";
         document.getElementById("question").innerHTML = "";
-      
+
+                const nextBtn = document.querySelector(".nav-btn.next")
+        if(nextBtn){nextBtn.remove()}
+        const skipBtn = document.querySelector(".nav-btn.skip")
+        if(skipBtn){skipBtn.remove()}
+
         const answersContainer = document.querySelector(".answers-grid");
         answersContainer.innerHTML = "";
         let result = document.createElement("div");
         result.classList.add("score-screen");
         result.textContent = "your score is "+score+"/"+quiz.length;
         answersContainer.appendChild(result);
+  }
+
+  function checkSkipped(){
+    for(element of quiz){
+      if(element.skip == true){
+        return quiz.indexOf(element);
+      }
     }
+    return -1;
   }
 
 function previousQuestion(){
@@ -176,7 +236,7 @@ function previousQuestion(){
 }
 
 function checkAnswer(correctAnswer,btnText,btn, question){
-   question.userAnswer = btnText;
+  question.userAnswer = btnText;
   
   if(btnText === correctAnswer){
       btn.style.backgroundColor = "lightgreen";
@@ -191,9 +251,8 @@ function checkAnswer(correctAnswer,btnText,btn, question){
     }
 }
 
-
-
 function skipQuestion(){
+    quiz[currentQuestion].skip = true;
     currentQuestion++;
     showQuestion();
 }
