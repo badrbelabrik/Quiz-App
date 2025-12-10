@@ -166,7 +166,7 @@ function showQuestion(){
               
               if(quiz[currentQuestion].userAnswer != null){
                 btn.disabled = true;
-
+                
                 if(btn.textContent === quiz[currentQuestion].correct){
                   btn.style.backgroundColor = "lightgreen";
                 } 
@@ -258,3 +258,4 @@ function skipQuestion(){
 }
 
 document.addEventListener("DOMContentLoaded", () => {showQuestion();});
+
